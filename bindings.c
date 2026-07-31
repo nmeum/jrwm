@@ -136,6 +136,14 @@ static void change_split_ratio(struct Space *space, float change) {
 	space->tiled_splitratio = target;
 }
 
+static void change_main_depth(struct Space *space, int change) {
+	// Allow the main stack depth to be set to zero, in which
+	// case all windows in the space will be stacked horizontally.
+	//
+	// This matches the behavior of dwm.
+	space->tiled_max_depth = MAX(space->tiled_max_depth + change, 0);
+}
+
 
 // Binding function definitions
 // None of these functions run during a manage or render sequence
@@ -194,6 +202,10 @@ extern void binding_toggle_monocle(struct Seat *seat, union Arg arg) {
 
 extern void binding_change_split_ratio(struct Seat *seat, union Arg arg) {
 	change_split_ratio(seat->focused, arg.f);
+}
+
+extern void binding_change_main_depth(struct Seat *seat, union Arg arg) {
+	change_main_depth(seat->focused, arg.i);
 }
 
 extern void binding_focus_next(struct Seat *seat, union Arg arg) {

@@ -24,6 +24,12 @@
 #include <river-xkb-bindings-v1.h>
 
 
+// Utility macros
+
+#define MAX(A, B) ((A) > (B) ? (A) : (B))
+#define MIN(A, B) ((A) < (B) ? (A) : (B))
+
+
 // Types
 
 struct Rect {
@@ -41,6 +47,7 @@ struct Space {
 
 	bool is_static;         // Static spaces are never removed
 	float tiled_splitratio;
+	int tiled_max_depth;
 
 	void (*layout)(struct Space *space, struct Rect bounds);
 };
@@ -168,6 +175,7 @@ extern void binding_toggle_fullscreen(struct Seat *, union Arg);
 extern void binding_toggle_monocle(struct Seat *, union Arg);
 
 extern void binding_change_split_ratio(struct Seat *, union Arg);
+extern void binding_change_main_depth(struct Seat *, union Arg);
 
 extern void binding_focus_next(struct Seat *, union Arg);
 extern void binding_focus_prev(struct Seat *, union Arg);
@@ -213,6 +221,7 @@ extern int monocle_borderpx;
 extern int tiled_borderpx;
 extern int tiled_margin;
 extern int tiled_output_padding;
+extern int tiled_main_size;
 extern float tiled_splitratio;
 
 extern bool focus_follows_pointer;

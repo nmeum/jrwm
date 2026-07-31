@@ -445,6 +445,7 @@ static void wm_init(void) {
 	for (i = 0; i < sp; i++) {
 		struct Space *space = create_space();
 		space->is_static = (i < static_spaces);
+		space->tiled_max_depth = tiled_main_size;
 		wl_list_insert(&wm.spaces, &space->link);
 	}
 }

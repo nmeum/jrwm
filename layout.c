@@ -188,12 +188,14 @@ extern void monocle_layout(struct Space *space, struct Rect bounds) {
 
 extern void tiled_layout(struct Space *space, struct Rect bounds) {
 	subtract_border(&bounds, tiled_output_padding);
-	int count = 0, w = 0, rightwidth = bounds.width, rightheight = bounds.height;
+	int count = 0, w = 0, rightwidth = bounds.width, stackheight = bounds.height;
 	struct Window *window;
 	wl_list_for_each(window, &wm.windows, link) {
 		if (window->space == space)
 			count++;
 	}
+	int max_main_depth = space->tiled_max_depth;
+	int cur_main_depth = MIN(count, max_main_depth);
 	wl_list_for_each(window, &wm.windows, link) {
 		if (window->space != space)
 			continue;
@@ -201,21 +203,29 @@ extern void tiled_layout(struct Space *space, struct Rect bounds) {
 			river_window_v1_inform_unmaximized(window->obj);
 			window->maximized = false;
 		}
-		if (count == 1 || w == 0) {
-			// Left side "main" window
+		if (count == 1 || w < max_main_depth) {
+			// Left side "main" windows
 			window->layout = bounds;
-			if (count > 1)
+			if (cur_main_depth > 1) {
+				window->layout.height = stackheight / (cur_main_depth - w);
+				window->layout.y = bounds.y + bounds.height - stackheight;
+				stackheight -= window->layout.height + tiled_margin;
+			}
+			if (count > max_main_depth)
 				window->layout.width *= space->tiled_splitratio;
 
-			rightwidth -= window->layout.width + tiled_margin;
+			if (w == max_main_depth - 1) { /* last window on "main" stack? */
+				rightwidth -= window->layout.width + tiled_margin;
+				stackheight = bounds.height;
+			}
 		} else {
 			// Right side "stacked" windows
 			window->layout.x = bounds.x + bounds.width - rightwidth;
-			window->layout.y = bounds.y + bounds.height - rightheight;
+			window->layout.y = bounds.y + bounds.height - stackheight;
 			window->layout.width = rightwidth;
-			window->layout.height = rightheight / (count - w);
+			window->layout.height = stackheight / (count - w);
 
-			rightheight -= window->layout.height + tiled_margin;
+			stackheight -= window->layout.height + tiled_margin;
 		}
 		subtract_border(&window->layout, tiled_borderpx);
 		w++;
