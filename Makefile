@@ -8,7 +8,8 @@ PREFIX	= /usr/local
 BINDIR	= $(PREFIX)/bin
 MANDIR	= $(PREFIX)/man
 
-CFLAGS	= -g -O2 -Wall -I. -I$(PROTODIR) -flto -lwayland-client -lxkbcommon  # -std=c99 -pedantic -D_POSIX_C_SOURCE=200112L
+CFLAGS	= -g -O2 -Wall -I. -I$(PROTODIR) # -std=c99 -pedantic -D_POSIX_C_SOURCE=200112L
+LDFLAGS	= -flto -lwayland-client -lxkbcommon
 
 CONFIG	= config.c
 CFILES	= jrwm.c layout.c bindings.c $(CONFIG) $(PROTOC)
@@ -26,7 +27,7 @@ PROTOH	= $(PROTOS:.xml=.h)
 # Manual targets that you would actually want to call.
 
 jrwm	: $(CFILES) $(HFILES)
-	$(CC) -o jrwm $(CFLAGS) $(CFILES)
+	$(CC) -o jrwm $(CFLAGS) $(CFILES) $(LDFLAGS)
 
 clean	:
 	rm -f jrwm $(PROTOC) $(PROTOH)
