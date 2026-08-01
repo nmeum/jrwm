@@ -1,8 +1,8 @@
 # Basic make variables.
 
 CC	= gcc
-INSTALL	= /usr/bin/install -c -s
-MKDIR_P	= /usr/bin/mkdir -p
+INSTALL	= install -c -s
+MKDIR_P	= mkdir -p
 
 PREFIX	= /usr/local
 BINDIR	= $(PREFIX)/bin
