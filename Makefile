@@ -13,6 +13,7 @@ LDFLAGS	= -flto -lwayland-client -lxkbcommon
 
 CONFIG	= config.c
 CFILES	= jrwm.c layout.c bindings.c $(CONFIG) $(PROTOC)
+OFILES	= $(CFILES:.c=.o)
 HFILES	= jrwm.h $(PROTOH)
 PROTODIR = ./protocol
 
@@ -26,11 +27,12 @@ PROTOH	= $(PROTOS:.xml=.h)
 
 # Manual targets that you would actually want to call.
 
-jrwm	: $(CFILES) $(HFILES)
-	$(CC) -o jrwm $(CFLAGS) $(CFILES) $(LDFLAGS)
+jrwm	: $(OFILES)
+	$(CC) -o jrwm $(CFLAGS) $(OFILES) $(LDFLAGS)
+$(OFILES)	: $(HFILES)
 
 clean	:
-	rm -f jrwm $(PROTOC) $(PROTOH)
+	rm -f jrwm $(PROTOC) $(OFILES) $(PROTOH)
 
 install	: jrwm
 	$(MKDIR_P) $(BINDIR)
@@ -45,6 +47,9 @@ install	: jrwm
 # XML file conversion.
 
 .SUFFIXES: .xml .c .h
+
+.c.o:
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 .xml.c	:
 	wayland-scanner private-code $< $@
