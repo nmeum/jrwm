@@ -1,17 +1,22 @@
 # Basic make variables.
 
 CC	= gcc
-INSTALL	= /usr/bin/install -c -s
-MKDIR_P	= /usr/bin/mkdir -p
+INSTALL	= install -c -s
+MKDIR_P	= mkdir -p
 
 PREFIX	= /usr/local
 BINDIR	= $(PREFIX)/bin
 MANDIR	= $(PREFIX)/man
 
-CFLAGS	= -g -O2 -Wall -I. -I$(PROTODIR) -flto -lwayland-client -lxkbcommon  # -std=c99 -pedantic -D_POSIX_C_SOURCE=200112L
+CFLAGS	?= -g -O2 -Wall
+CFLAGS	+= -I. -I$(PROTODIR)
+#CFLAGS	+= -std=c99 -pedantic -D_POSIX_C_SOURCE=200112L
+LDFLAGS	?= -flto
+LDFLAGS	+= -lwayland-client -lxkbcommon
 
 CONFIG	= config.c
 CFILES	= jrwm.c layout.c bindings.c $(CONFIG) $(PROTOC)
+OFILES	= $(CFILES:.c=.o)
 HFILES	= jrwm.h $(PROTOH)
 PROTODIR = ./protocol
 
@@ -25,11 +30,12 @@ PROTOH	= $(PROTOS:.xml=.h)
 
 # Manual targets that you would actually want to call.
 
-jrwm	: $(CFILES) $(HFILES)
-	$(CC) -o jrwm $(CFLAGS) $(CFILES)
+jrwm	: $(OFILES)
+	$(CC) -o jrwm $(CFLAGS) $(OFILES) $(LDFLAGS)
+$(OFILES)	: $(HFILES)
 
 clean	:
-	rm -f jrwm $(PROTOC) $(PROTOH)
+	rm -f jrwm $(PROTOC) $(OFILES) $(PROTOH)
 
 install	: jrwm
 	$(MKDIR_P) $(BINDIR)
@@ -44,6 +50,9 @@ install	: jrwm
 # XML file conversion.
 
 .SUFFIXES: .xml .c .h
+
+.c.o:
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 .xml.c	:
 	wayland-scanner private-code $< $@
