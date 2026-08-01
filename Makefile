@@ -8,8 +8,11 @@ PREFIX	= /usr/local
 BINDIR	= $(PREFIX)/bin
 MANDIR	= $(PREFIX)/man
 
-CFLAGS	= -g -O2 -Wall -I. -I$(PROTODIR) # -std=c99 -pedantic -D_POSIX_C_SOURCE=200112L
-LDFLAGS	= -flto -lwayland-client -lxkbcommon
+CFLAGS	?= -g -O2 -Wall
+CFLAGS	+= -I. -I$(PROTODIR)
+#CFLAGS	+= -std=c99 -pedantic -D_POSIX_C_SOURCE=200112L
+LDFLAGS	?= -flto
+LDFLAGS	+= -lwayland-client -lxkbcommon
 
 CONFIG	= config.c
 CFILES	= jrwm.c layout.c bindings.c $(CONFIG) $(PROTOC)
