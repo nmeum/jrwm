@@ -206,27 +206,24 @@ extern void tiled_layout(struct Space *space, struct Rect bounds) {
 		if (count == 1 || w < max_main_depth) {
 			// Left side "main" windows
 			window->layout = bounds;
-			if (cur_main_depth > 1) {
-				window->layout.height = stackheight / (cur_main_depth - w);
-				window->layout.y = bounds.y + bounds.height - stackheight;
-				stackheight -= window->layout.height + tiled_margin;
-			}
+			window->layout.height = stackheight / (cur_main_depth - w);
 			if (count > max_main_depth)
 				window->layout.width *= space->tiled_splitratio;
-
-			if (w == max_main_depth - 1) { /* last window on "main" stack? */
-				rightwidth -= window->layout.width + tiled_margin;
-				stackheight = bounds.height;
-			}
 		} else {
 			// Right side "stacked" windows
 			window->layout.x = bounds.x + bounds.width - rightwidth;
-			window->layout.y = bounds.y + bounds.height - stackheight;
 			window->layout.width = rightwidth;
 			window->layout.height = stackheight / (count - w);
-
-			stackheight -= window->layout.height + tiled_margin;
 		}
+
+		window->layout.y = bounds.y + bounds.height - stackheight;
+		stackheight -= window->layout.height + tiled_margin;
+
+		if (w == max_main_depth - 1) { /* last window on "main" stack? */
+			rightwidth -= window->layout.width + tiled_margin;
+			stackheight = bounds.height;
+		}
+
 		subtract_border(&window->layout, tiled_borderpx);
 		w++;
 	}
