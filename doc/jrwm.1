@@ -38,7 +38,8 @@ environment variable set to the appropriate value.
 .SH OPTIONS
 JrWM has no command-line options.
 .SH USAGE
-These are the default internal key bindings within JrWM.
+These are the default key bindings within JrWM.
+Users are encouraged to modify these key bindings.
 Mod4 is often referred to as the "super" or "windows" key.
 .TP
 .B Mod4-q
@@ -47,20 +48,73 @@ Close the focused window.
 .B Mod4-Shift-e
 Exit the current river session.
 .TP
+.B Mod4-Return
+Spawn a
+.I foot
+window.
+.TP
+.B Mod4-Space
+Spawn a
+.I rofi
+window.
+.SS Window and layout changes
+.TP
+.B Mod4-m
+Toggle the current space's layout between monocle and tiled.
+.TP
+.B Mod4-Shift-f
+Toggle the focused window fullscreen.
+.TP
+.B Mod4-Shift-m
+Toggle the focused window "fake" fullscreen.
+.TP
+.B Mod4-Alt-h
+(Tiling layout only) Decrease the fraction of the output dedicated to the main
+stack.
+.TP
+.B Mod4-Alt-l
+(Tiling layout only) Increase the fraction of the output dedicated to the main
+stack.
+.TP
+.B Mod4-Alt-d
+(Tiling layout only) Decrease the number of windows which can be placed in the
+main stack.
+.TP
+.B Mod4-Alt-i
+(Tiling layout only) Increase the number of windows which can be placed in the
+main stack.
+.SS Window movement
+.TP
 .B Mod4-j
 Focus the next window in the current space.
 .TP
 .B Mod4-k
-Focus the next window in the current space.
+Focus the previous window in the current space.
 .TP
 .B Mod4-Shift-j
-Move the window "forward" in the current space.
+Move the focused window forward in the current space.
 .TP
 .B Mod4-Shift-k
-Move the window "backward" in the current space.
+Move the focused window backward in the current space.
+.SS Movement between spaces
 .TP
-.B Mod4-m
-Toggle the current space's layout between monocle and tiled.
+.B Mod4-h
+Select the previous "busy" space to view on the current output.
+.TP
+.B Mod4-l
+Select the next "busy" space to view on the current output.
+.TP
+.B Mod4-Alt-h
+Select the previous space to view on the current output.
+.TP
+.B Mod4-Alt-l
+Select the next space to view on the current output.
+.TP
+.B Mod4-o
+Select the next idle space to view on the current output.
+.TP
+.B Mod4-Ctrl-o
+Select the previous idle space to view on the current output.
 .TP
 .B Mod4-(1 ... 9)
 Select the
