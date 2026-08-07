@@ -48,6 +48,7 @@ int tiled_borderpx   = 2;
 
 int tiled_margin         = -2;	// Space between windows
 int tiled_output_padding =  0;	// Space around windows
+int tiled_main_size      =  1;	// Default number of windows on "main" stack
 float tiled_splitratio   =  0.52;
 
 
