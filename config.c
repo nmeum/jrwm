@@ -46,6 +46,7 @@ int tiled_borderpx   = 2;
 
 int tiled_margin         = -2;	// Space between windows
 int tiled_output_padding =  0;	// Space around windows
+int tiled_main_size      =  1;	// Default amount of windows on "main" stack
 float tiled_splitratio   =  0.52;
 
 
@@ -80,8 +81,12 @@ struct Binddef binds[] = {
 	{super|shift, XKB_KEY_j, binding_move_next,  {0}},
 	{super,       XKB_KEY_k, binding_focus_prev, {0}},
 	{super|shift, XKB_KEY_k, binding_move_prev,  {0}},
+
+	// Bindings for modifying the tiling layout behavior
 	{super|alt,   XKB_KEY_h, binding_change_split_ratio, {.f = -0.1}},
 	{super|alt,   XKB_KEY_l, binding_change_split_ratio, {.f =  0.1}},
+	{super|alt,   XKB_KEY_i, binding_change_main_depth,  {.i = +1}},
+	{super|alt,   XKB_KEY_d, binding_change_main_depth,  {.i = -1}},
 
 	// Bindings for relative motion between spaces
 	{super,       XKB_KEY_h, binding_activate_prev_busy_space, {0}},
