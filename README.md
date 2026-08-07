@@ -10,8 +10,9 @@ to have a good degree of correctness.
 Windows in JrWM are organized into spaces, which are collections of windows
 associated with an output and a layout.  Multiple spaces may be associated with
 an output simultaneously, but only one space is visible on an output at any one
-time.  Supported layouts are a tiled layout like that of dwm and a monocle
-layout.
+time.  Supported layouts, at this time, are a monocle layout and a tiled layout
+inspired by that of [dwm](https://dwm.suckless.org/), with windows arranged into
+a main area and a stacking area.
 
 JrWM supports very little in the way of visuals.  Window borders are drawn to
 indicate focus, but for anything else, additional programs such as waybar must
@@ -23,11 +24,6 @@ be used.  For the sake of these programs, JrWM supports the
 _A screenshot of JrWM featuring waybar, foot, vim,
 [es](https://github.com/wryun/es-shell), the
 [notcat](https://github.com/jpco/notcat) notification server, and zathura._
-
-
-## Configuration
-
-Configuration, such as it is, is done by editing the file `config.c`.
 
 
 ## Building and installation
@@ -59,3 +55,16 @@ JrWM will be installed into the /usr/local/bin directory, and its man page will
 be installed into /usr/local/man.
 
 The Makefile, like JrWM itself, is intended to be simple and easy to modify.
+
+
+## Configuration
+
+Configuration, such as it is, is done by editing the file `config.c`.
+
+Alternatively, it is possible to create an alternative config file and build the
+WM using that file instead of `config.c`. For example, to build with the config
+defined in the file `examples/jpco-config.c`, one can use the command
+
+```sh
+make CONFIG=examples/jpco-config.c
+```
