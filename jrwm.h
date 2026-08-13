@@ -22,6 +22,8 @@
 #include <river-layer-shell-v1.h>
 #include <river-window-management-v1.h>
 #include <river-xkb-bindings-v1.h>
+#include <river-input-management-v1.h>
+#include <river-libinput-config-v1.h>
 
 
 // Utility macros

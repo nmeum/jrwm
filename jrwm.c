@@ -33,6 +33,8 @@ struct WindowManager wm;
 struct river_window_manager_v1 *window_manager_v1;
 struct river_xkb_bindings_v1 *xkb_bindings_v1;
 struct river_layer_shell_v1 *layer_shell_v1;
+struct river_input_manager_v1 *input_manager_v1;
+struct river_libinput_config_v1 *libinput_config_v1;
 
 
 // Utility functions for this file
@@ -486,6 +488,10 @@ static void handle_global(void *data, struct wl_registry *registry, uint32_t nam
 		xkb_bindings_v1 = wl_registry_bind(registry, name, &river_xkb_bindings_v1_interface, 1);
 	} else if (strcmp(interface, river_layer_shell_v1_interface.name) == 0) {
 		layer_shell_v1 = wl_registry_bind(registry, name, &river_layer_shell_v1_interface, 1);
+	} else if (strcmp(interface, river_input_device_v1_interface.name) == 0) {
+		input_manager_v1 = wl_registry_bind(registry, name, &river_input_device_v1_interface, 1);
+	} else if (strcmp(interface, river_libinput_config_v1_interface.name) == 0) {
+		libinput_config_v1 = wl_registry_bind(registry, name, &river_libinput_config_v1_interface, 1);
 	}
 }
 

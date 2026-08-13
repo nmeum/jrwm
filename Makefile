@@ -23,7 +23,8 @@ PROTODIR = ./protocol
 
 # Generated file variables.
 
-PROTOS	= $(PROTODIR)/river-layer-shell-v1.xml $(PROTODIR)/river-window-management-v1.xml $(PROTODIR)/river-xkb-bindings-v1.xml
+PROTOS	= $(PROTODIR)/river-layer-shell-v1.xml $(PROTODIR)/river-window-management-v1.xml $(PROTODIR)/river-xkb-bindings-v1.xml \
+	  $(PROTODIR)/river-input-management-v1.xml $(PROTODIR)/river-libinput-config-v1.xml
 PROTOC	= $(PROTOS:.xml=.c)
 PROTOH	= $(PROTOS:.xml=.h)
 
