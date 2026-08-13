@@ -202,13 +202,13 @@ extern void tiled_layout(struct Space *space, struct Rect bounds) {
 	int count = 0, w = 0, rightwidth = bounds.width, stackheight = bounds.height;
 	struct Window *window;
 	wl_list_for_each(window, &wm.windows, link) {
-		if (window->space == space && !window->floating)
+		if (window->space == space && !window->floating && window->born)
 			count++;
 	}
 	int max_main_depth = space->tiled_max_depth;
 	int cur_main_depth = MIN(count, max_main_depth);
 	wl_list_for_each(window, &wm.windows, link) {
-		if (window->space != space || window->floating)
+		if (window->space != space || window->floating || !window->born)
 			continue;
 		if (window->maximized) {
 			river_window_v1_inform_unmaximized(window->obj);
@@ -350,6 +350,13 @@ extern void render_space(struct Space *space) {
 
 	struct Window *window;
 	wl_list_for_each(window, &wm.windows, link) {
+		// Hide window on the first frame, see the `born` member comment.
+		if (!window->born) {
+			window->born = true;
+			place_window(window);
+			continue;
+		}
+
 		if (window->space != space || !valid_rect(window->layout))
 			continue;
 		river_window_v1_show(window->obj);
