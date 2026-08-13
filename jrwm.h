@@ -74,6 +74,15 @@ struct Window {
 	bool fake_fullscreen; // The window acts as if fullscreen
 	bool floating; // The window is floating
 
+	// In river-window-management-v1, dialog windows are intended to be detected
+	// through the river_window_v1.parent event (i.e., they have a parent window).
+	// However, many clients do not emit this event. Therefore, we further use a
+	// heuristic for detecting these windows based on the maximum width/height
+	// communicated through the river_window_v1.dimensions_hint. Sadly, this hint
+	// is only send after window is rendered, therefore we hide them on the first
+	// frame. Born is used to indicate if the window was rendered for >1 frames.
+	bool born;
+
 	// Deferred tasks for the manage sequence
 	bool set_capabilities;  // window_v1.set_capabilities
 	bool close;             // window_v1.close
