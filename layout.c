@@ -124,6 +124,17 @@ extern void place_window(struct Window *window) {
 	}
 }
 
+// Center window on its output, no-op if it doesn't have an active output
+extern void center_window(struct Window *window) {
+	struct Output *output = active_on_output(window->space);
+	if (output == NULL)
+		return;
+
+	struct Rect bounds = output->windowed;
+	window->layout.x = (bounds.width - window->layout.width)/2;
+	window->layout.y = (bounds.height - window->layout.height)/2;
+}
+
 // Replace this Window with any other where necessary
 extern void replace_window(struct Window *window) {
 	struct Seat *seat;
